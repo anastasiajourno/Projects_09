@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)https://russellgoldenberg.github.io/scrollama/sticky-overlay/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript">
+    (function() {
+      var container = document.querySelector('#_tcx-f5i5aup2ej5');
+      if (!container) {
+        return;
+      }
+
+      function addToContainer(url, text) {
+        const wrapper = document.createElement('div');
+        wrapper.setAttribute('data-tcx-url', url);
+        wrapper.innerText = text;
+        container.appendChild(wrapper);
+      }
+
+      const fetch = window.fetch
+      window.fetch = function() {
+        return Promise.resolve(fetch.apply(window, arguments))
+            .then(async response => {
+              if (response.ok) {
+                try {
+                  const clone = response.clone();
+                  const json = await clone.json();
+                  addToContainer(clone.url, JSON.stringify(json));
+                } catch (err) {}
+              }
+              return response;
+            });
+      };
+
+      var XHR = XMLHttpRequest.prototype;
+      var send = XHR.send;
+      var open = XHR.open;
+      XHR.open = function(method, url) {
+        this.url = url;
+        return open.apply(this, arguments);
+      };
+      XHR.send = function() {
+        this.addEventListener('load', function() {
+          try {
+            const response = this.response;
+            if (response && response.length) {
+              const firstChar = response[0];
+              if (firstChar === '[' || firstChar === '{') {
+                addToContainer(this.url, response);
+              }
+            }
+          } catch (err) {
+            // No-op.
+          }
+        });
+        return send.apply(this, arguments);
+      };
+    })();
+  </script>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Scrollama: Sticky Overlay Example</title>
+    <meta name="description" content="Scrollama: Sticky Overlay Example">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./Lost_Scrollama_files/style.css">
+    <style>
+
+body {
+  background-color: #d0d0d0;
+  font: 25px/28px Open Sans, Helvetica;
+  text-align: center;
+  color: #444;
+ 
+}
+
+#intro {
+  max-width: 40rem;
+  margin: 20rem auto;
+  text-align: center;
+}
+
+header {margin: 15px 0;}
+
+h1 {font: 32px/34px Open Sans, Helvetica;}
+
+h5 {font: 22px/24px Open Sans, Helvetica;}
+
+strong {font-weight: 700;}
+
+hr {
+  border-top: 1px solid #444;
+  width: 98%;
+}
+
+.rw-sentence {
+  text-transform: uppercase;
+  font: 20px/22px Open Sans, Helvetica;
+}
+
+.rw-wrapper {position: relative;}
+
+.rw-words {
+  display: block;
+  position: relative;
+  margin: 20px auto;
+}
+
+.rw-words-1 span {
+  position: absolute;
+  width: 100%;
+  margin-left: -50%;
+  opacity: 0;
+  overflow: hidden;
+  color: #f96566;
+  -webkit-animation: rotateWord 18s linear infinite 0s;
+  -ms-animation: rotateWord 18s linear infinite 0s;
+  animation: rotateWord 18s linear infinite 0s;
+}
+
+.rw-words-1 span:nth-child(2) {
+  -webkit-animation-delay: 3s;
+  -ms-animation-delay: 3s;
+  animation-delay: 3s;
+  color: #03A9F4;
+}
+
+.rw-words-1 span:nth-child(3) {
+  -webkit-animation-delay: 6s;
+  -ms-animation-delay: 6s;
+  animation-delay: 6s;
+  color: #FF9800;
+}
+
+.rw-words-1 span:nth-child(4) {
+  -webkit-animation-delay: 9s;
+  -ms-animation-delay: 9s;
+  animation-delay: 9s;
+  color: #4CAF50;
+}
+
+.rw-words-1 span:nth-child(5) { 
+    -webkit-animation-delay: 12s; 
+    -moz-animation-delay: 12s; 
+    -o-animation-delay: 12s; 
+    -ms-animation-delay: 12s; 
+    animation-delay: 12s; 
+    color: #621737;
+}
+
+.rw-words-1 span:nth-child(6) { 
+    -webkit-animation-delay: 15s;
+    -moz-animation-delay: 15s; 
+    -o-animation-delay: 15s; 
+    -ms-animation-delay: 15s; 
+    animation-delay: 15s; 
+    color: #CFAA00;
+}
+
+@-webkit-keyframes rotateWord {
+  0% {opacity: 0;}
+  
+  2% {
+    opacity: 0;
+    -webkit-transform: translateY(-30px);
+  }
+  
+  5% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+  }
+  
+  17% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+  }
+  
+  20% {
+    opacity: 0;
+    -webkit-transform: translateY(30px);
+  }
+  
+  80% {opacity: 0;}
+  
+  100% {opacity: 0;}
+}
+
+@-ms-keyframes rotateWord {
+  0% {opacity: 0;}
+  
+  2% {
+    opacity: 0;
+    -ms-transform: translateY(-30px);
+  }
+  
+  5% {
+    opacity: 1;
+    -ms-transform: translateY(0px);
+  }
+  
+  17% {
+    opacity: 1;
+    -ms-transform: translateY(0px);
+  }
+  
+  20% {
+    opacity: 0;
+    -ms-transform: translateY(30px);
+  }
+  
+  80% {opacity: 0;}
+  
+  100% {opacity: 0;}
+}
+
+@keyframes rotateWord {
+  0% {opacity: 0;}
+  
+  2% {
+    opacity: 0;
+    -webkit-transform: translateY(-30px);
+    transform: translateY(-30px);
+  }
+  
+  5% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+  }
+  
+  17% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+  }
+  
+  20% {
+    opacity: 0;
+    -webkit-transform: translateY(30px);
+    transform: translateY(30px);
+  }
+  
+  80% {opacity: 0;}
+  
+  100% {opacity: 0;}
+}
+
+      #scrolly {
+        position: relative;
+        background-color: #f3f3f3;
+        padding: 1rem;
+      }
+
+      article {
+        position: relative;
+        padding: 0;
+        max-width: 20rem;
+        margin: 0 auto;
+      }
+
+      figure {
+        position: -webkit-sticky;
+        position: sticky;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        -webkit-transform: translate3d(0, 0, 0);
+        -moz-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        background-color: #8a8a8a;
+        z-index: 0;
+      }
+
+      figure p {
+        text-align: center;
+        padding: 1rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -moz-transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        font-size: 8rem;
+        font-weight: 900;
+        color: #fff;
+      }
+
+      .step {
+        margin: 0 auto 15rem auto;
+        color: #fff;
+      }
+
+      .step:last-child {
+        margin-bottom: 0;
+      }
+
+      .step.is-active p {
+        color: #3b3b3b;
+      }
+
+      .step p {
+        text-align: left;
+        padding: 1rem;
+        font-size: 1rem;
+        
+      }
+
+      .hide{
+  display: none;
+}
+
+#credits {
+  max-width: 40rem;
+  margin: 20rem auto;
+  text-align: center;
+  font-size: 1rem;
+}
+
+    </style>
+  </head>
+
+  <body>
+    <main>
+      
+      <section id="intro">
+        <h1 class="intro__hed">
+          <header>
+            <section class="rw-wrapper">
+                <h1 class="rw-sentence">
+                  <div class="rw-words rw-words-1">
+                  <span>artists</span>
+                  <span>scientists</span>
+                  <span>directors</span>
+                  <span>doctors</span>
+                  <span>teachers</span>
+                  <span>people</span>
+                  <br> we lost 
+                    </div>
+                            </h1>
+            <hr />
+             </header>
+            </section>
+        </h1>
+      </section>
+
+      <section id="scrolly">
+        <figure style="height: 315.5px; top: 157.75px;">
+          <div class="flourish-embed" data-src="story/954559"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
+        </figure>
+
+        <article>
+          <div class="step" data-step="1" style="height: 473px;" data-scrollama-index="0">
+            <p>
+              <img id=Arpik src ="https://upload.wikimedia.org/wikipedia/commons/c/c4/Arpik_Asratyan.jpg">
+            <br>
+            Arpik Asratyan, an epidemiologist. <br>
+            She died in Moscow at the age of 69 on the 27th of March 2020. 
+            She was the only victim on that day and the fourth victim of COVID-19 in the total count. 
+            Her husband, also a scientist, died from COVID-19 10 days later. 
+            They lived together for 45 years and raised two children, both doctors. <br>
+            Soon the death count began to grow rapidly.
+            </p>
+          </div>
+          <div class="step" data-step="2" style="height: 473px;" data-scrollama-index="1">
+            <p>
+              <p>
+                <img id=bishop height=256 src ="https://upload.wikimedia.org/wikipedia/ru/thumb/8/84/%D0%95%D0%BF%D0%B8%D1%81%D0%BA%D0%BE%D0%BF_%D0%92%D0%B5%D0%BD%D0%B8%D0%B0%D0%BC%D0%B8%D0%BD_%28%D0%9A%D0%BE%D1%80%D0%BE%D0%BB%D1%91%D0%B2%29.jpg/540px-%D0%95%D0%BF%D0%B8%D1%81%D0%BA%D0%BE%D0%BF_%D0%92%D0%B5%D0%BD%D0%B8%D0%B0%D0%BC%D0%B8%D0%BD_%28%D0%9A%D0%BE%D1%80%D0%BE%D0%BB%D1%91%D0%B2%29.jpg ">
+              <br>
+              Bishop Veniamin.<br>
+              He died in Kursk at the age of 54 on the 26th of April 2020. 
+              In the early days of the virus spread, some groups of people were particularly exposed to virus. 
+              Medicals workers. Those who work in catering and transport. Clergy. <br>
+              Coronavirus death toll has reached a thousand people by the end of April.  
+              </p>
+            </p>
+          </div>
+          <div class="step" data-step="3" style="height: 473px;" data-scrollama-index="2">
+            <p>
+              <img id=Balmusov height=256 src ="https://upload.wikimedia.org/wikipedia/ru/b/b0/%D0%91%D0%B0%D0%BB%D0%BC%D1%83%D1%81%D0%BE%D0%B2_%D0%AE%D0%BB%D1%8C%D0%B5%D0%BD_%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87.jpg">
+              <br>
+              Julien Balmusov, an actor, died in Moscow at the age of 79. <br>
+              The end of May were the peak days of the first wave of COVID 19. 
+              232 people died in one day. <br>
+              Soon both the death count and the cases count started going down.
+              The government decided to loosen up the lockdown restrictions. 
+              Without really preparing for the next wave.
+            </p>
+          </div>
+          <div class="step" data-step="4" style="height: 473px;" data-scrollama-index="3">
+            <p>
+              <img id=Bakin height=256 src ="https://upload.wikimedia.org/wikipedia/ru/9/90/%D0%91%D0%B0%D0%BA%D0%B8%D0%BD_%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%93%D0%B0%D0%B2%D1%80%D0%B8%D0%BB%D0%BE%D0%B2%D0%B8%D1%87.jpg">
+              <br> 
+              The second wave was more deadly. By its peak in the end of December,
+              as many as 624 people died in one day.
+              One of them was Vladimir Bakin, Chairman of the Legislative Assembly of the Kirov Region.
+              He passed away on the 25th of December 2020.
+            </p>
+          </div>
+          <div class="step" data-step="5" style="height: 473px;" data-scrollama-index="4">
+            <p>
+              <img id=Ivanov height=256 src ="https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/2019-IvanovIV.jpg/548px-2019-IvanovIV.jpg">
+              <br>
+              On the 8th of April 2021, the death tool reached a threshold of 100 000 people.
+              One of them was Igor Ivanov, a scientist, who died in Yegorievsk at the age of 83.
+              'A wonderful field worker, caring comrade, selfless and modest, he devoted his whole life to serving Science',
+              says the obituary on the Institute's website.
+            </p>
+          </div>
+          <div class="step" data-step="6" style="height: 473px;" data-scrollama-index="5">
+            <p>
+              <img id=Mikerin height=256 src ="https://upload.wikimedia.org/wikipedia/ru/7/76/%D0%95._%D0%98._%D0%9C%D0%B8%D0%BA%D0%B5%D1%80%D0%B8%D0%BD.jpeg">
+              <br>
+              Despite the vaccination available for everybody as early as January 2020, the rate of vaccination in Russia was very low. 
+              The third wave was even more severe, and more people have died than ever. 
+              The absolute maximum was 789 people dying in one day. 
+              One of them was Evgeny Mikerin, a scientist, who died at the age of 93 in Moscow.
+              He participated in the elimination of the consequences of the accident at the Chernobyl nuclear power plant.          
+            </p>
+          </div>
+          <div class="step" data-step="7" style="height: 473px;" data-scrollama-index="6">
+            <p>
+              <img id=Antonova height=256 src ="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Irina_Antonova_03-06-2014.jpg/560px-Irina_Antonova_03-06-2014.jpg">
+              <br>
+              Irina Antonova, Soviet and Russian art scholar, specialist in Italian painting of the Renaissance. 
+              Director and President of the Pushkin State Museum of Fine Arts in Moscow. Doctor of Art History.              
+            </p>
+          </div>
+          <div class="step" data-step="7" style="height: 473px;" data-scrollama-index="6">
+            <p>
+              <img id=Menshov height=256 src ="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9C%D0%B5%D0%BD%D1%8C%D1%88%D0%BE%D0%B2_2018_%28cropped%29_%28cropped%29.jpg/544px-%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9C%D0%B5%D0%BD%D1%8C%D1%88%D0%BE%D0%B2_2018_%28cropped%29_%28cropped%29.jpg ">
+              <br>
+              Vladimir Menshov, director who won Oscar in 1981 but could not attend the ceremony because of the Cold War.              
+            </p>
+            </div>
+            <div class="step" data-step="8" style="height: 473px;" data-scrollama-index="7">
+              <p>
+                <img id=Kataeva height=256 src ="https://upload.wikimedia.org/wikipedia/ru/thumb/c/c0/%D0%9A%D0%B0%D1%82%D0%B0%D0%B5%D0%B2%D0%B0%2C_%D0%95%D0%BB%D0%B5%D0%BD%D0%B0_%D0%93%D0%B5%D0%BE%D1%80%D0%B3%D0%B8%D0%B5%D0%B2%D0%BD%D0%B0.jpg/548px-%D0%9A%D0%B0%D1%82%D0%B0%D0%B5%D0%B2%D0%B0%2C_%D0%95%D0%BB%D0%B5%D0%BD%D0%B0_%D0%93%D0%B5%D0%BE%D1%80%D0%B3%D0%B8%D0%B5%D0%B2%D0%BD%D0%B0.jpg">
+                <br>
+                Elena Kataeva, a university rector. <br>
+                "Despite my deep conviction in my own invulnerability, 
+                it turned out to be an illusion and I caught COVID,” she wrote on her Facebook page.             
+              </p>
+            </div>
+        </article>
+      </section>
+
+      <section id="outro">
+      </section>
+      <section>
+        <p>
+          Learn a little more about the work and legacy of those who passed away.
+        </p>
+        
+        <select id ="name-selector">
+          <option disabled selected>Choose a person to commemorate</option>
+        </select>
+        
+        <button id='learn'> Learn who this person was </button>
+        
+        <p class="hide">
+          Here is a short bio: <br>
+          <span class="personname">[SHORT BIO]</span> 
+        </p>
+        <br>
+        
+        <button id='match'> Light a candle </button>
+        </p>
+        <p>
+        <img class="hide" id='candle' src="https://media2.giphy.com/media/11S1Zy5SPIqv84/giphy.webp?cid=ecf05e47abxhwr7ebw183og8en9xsyyd7v8gzhbkqootlzd1&rid=giphy.webp&ct=g" height="100" width="100" />
+        </p>
+        <p id=credits >Anastasia Valeeva, Lede Program Final Project. August 2021.
+          <br>
+          <a href="https://github.com/anastasiajourno/Projects_09">Project code</a></p>
+      </section>
+      <section id="outro">
+      </section>
+    </main>
+
+    <!-- <div class='debug'></div> -->
+    <script src="./Lost_Scrollama_files/d3.min.js"></script>
+    <script src="./Lost_Scrollama_files/intersection-observer.js"></script>
+    <script src="./Lost_Scrollama_files/stickyfill.min.js"></script>
+    <script src="./Lost_Scrollama_files/scrollama.min.js"></script>
+    <script>
+      // using d3 for convenience
+      var main = d3.select("main");
+      var scrolly = main.select("#scrolly");
+      var figure = scrolly.select("figure");
+      var article = scrolly.select("article");
+      var step = article.selectAll(".step");
+
+      // initialize the scrollama
+      var scroller = scrollama();
+
+      // generic window resize listener event
+      function handleResize() {
+        // 1. update height of step elements
+        var stepH = Math.floor(window.innerHeight * 0.75);
+        step.style("height", stepH + "px");
+
+        var figureHeight = window.innerHeight / 2;
+        var figureMarginTop = (window.innerHeight - figureHeight) / 2;
+
+        figure
+          .style("height", figureHeight + "px")
+          .style("top", 0 + "px");
+
+        // 3. tell scrollama to update new element dimensions
+        scroller.resize();
+      }
+
+      // scrollama event handlers
+      function handleStepEnter(response) {
+        console.log(response);
+        // response = { element, direction, index }
+
+        // add color to current step only
+        step.classed("is-active", function(d, i) {
+          return i === response.index;
+        });
+
+        // update graphic based on step
+        figure.select("p").text(response.index + 1);
+        var iframe = document.querySelector("#scrolly iframe");
+        iframe.src = iframe.src.replace(/#slide-.*/, "") + "#slide-" + response.index;
+
+      }
+
+      function setupStickyfill() {
+        d3.selectAll(".sticky").each(function() {
+          Stickyfill.add(this);
+        });
+      }
+
+      function init() {
+        setupStickyfill();
+
+        // 1. force a resize on load to ensure proper dimensions are sent to scrollama
+        handleResize();
+
+        // 2. setup the scroller passing options
+        // 		this will also initialize trigger observations
+        // 3. bind scrollama event handlers (this can be chained like below)
+        scroller
+          .setup({
+            step: "#scrolly article .step",
+            offset: 0.3,
+            debug: false
+          })
+          .onStepEnter(handleStepEnter);
+
+        // setup resize event
+        window.addEventListener("resize", handleResize);
+      }
+
+      // kick things off
+      init();
+
+      d3.csv("https://raw.githubusercontent.com/anastasiajourno/Projects_09/main/lost_cleaned%20-%20edited.csv").then(function(data){
+var namelist = data.map(function(person)
+{ return person.names
+  })
+
+d3.select('select#name-selector')
+    .selectAll('option')
+    .data(namelist)
+    .enter()
+    .append('option')
+    .text(function(name){
+      return name
+    })
+    .attr('value', function(name){
+      return name
+    })
+  
+  d3.select('#learn')
+    .on('click', function(){ // 
+    d3.select('.hide')
+      .classed('hide', false)
+    .classed('show', true)
+    
+    var selectedperson = d3.select('#name-selector').node().value
+   
+    var displayperson = data.filter(function(person){
+      return person.names===selectedperson
+    })
+    
+     d3.select('.personname')
+      .text(displayperson[0].bio)
+    
+d3.select("#match") .on('click', function(){ 
+  d3.select('#candle')
+      .classed('hide', false)
+    .classed('show', true) 
+})    
+   })   
+ })
+
+    </script>
+  
+
+</body></html>
